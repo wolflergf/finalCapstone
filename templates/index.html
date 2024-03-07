@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Explorer</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">API Explorer</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <h3>Dictionary Data API</h3>
+                <p>Retrieve the definition of a word.</p>
+                <p><strong>Endpoint:</strong> <code>/api/v1/dictionary</code></p>
+                <p><strong>Parameters:</strong> <code>word</code> (The word for which you want to retrieve the definition)</p>
+                <form id="dictionaryForm">
+                    <div class="form-group">
+                        <label for="word">Enter a word to get its definition:</label>
+                        <input type="text" class="form-control" id="word" name="word">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Get Definition</button>
+                </form>
+                <div id="dictionaryResult" class="mt-4"></div>
+            </div>
+            <div class="col-md-6">
+                <h3>Weather Data API</h3>
+                <p>Retrieve the temperature for a specific station and date.</p>
+                <p><strong>Endpoint:</strong> <code>/api/v1/weather</code></p>
+                <p><strong>Parameters:</strong> <code>station</code> (The station ID) and <code>date</code> (The date in YYYYMMDD format)</p>
+                <form id="weatherForm">
+                    <div class="form-group">
+                        <label for="station">Enter a station ID: 1 - 25157</label>
+                        <input type="text" class="form-control" id="station" name="station">
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Enter a date (YYYYMMDD -  18600101 - 20220531):</label>
+                        <input type="text" class="form-control" id="date" name="date">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Get Temperature</button>
+                </form>
+                <div id="weatherResult" class="mt-4"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#dictionaryForm').submit(function (e) {
+                e.preventDefault();
+                var word = $('#word').val();
+                $.get('/api/v1/dictionary', { word: word }, function (data) {
+                    if (data.error) {
+                        $('#dictionaryResult').html('<div class="alert alert-danger">' + data.error + '</div>');
+                    } else {
+                        $('#dictionaryResult').html('<div class="alert alert-success">Definition: ' + data.definition + '</div>');
+                    }
+                });
+            });
+
+            $('#weatherForm').submit(function (e) {
+                e.preventDefault();
+                var station = $('#station').val();
+                var date = $('#date').val();
+                $.get('/api/v1/weather', { station: station, date: date }, function (data) {
+                    if (data.error) {
+                        $('#weatherResult').html('<div class="alert alert-danger">' + data.error + '</div>');
+                    } else {
+                        $('#weatherResult').html('<div class="alert alert-success">Temperature: ' + data.temperature + '</div>');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
