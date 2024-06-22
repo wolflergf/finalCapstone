@@ -1,6 +1,6 @@
 
 # Flask Weather Station API
-
+![screenshot](API.png)
 Welcome to the Flask Weather Station API! This application serves as a versatile tool that provides real-time temperature data for various weather stations alongside a handy dictionary API. Whether you're a weather enthusiast or need quick access to word definitions, this Flask app has got you covered!
 
 ## Key Features
